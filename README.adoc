@@ -1,0 +1,89 @@
+= Spring Boot Kafka demo setup
+
+This demo consists setup for:
+
+* Kafka environment based on docker-compose
+** Zookeeper
+** Kafka broker on port localhost:9092 and internal docekr network broker:29092
+** Schema registry
+** http://localhost:9021/clusters[Confluent Control Center]
+
+Docker setup is based on https://github.com/confluentinc/examples.git[example docker-compose from Confluent].
+
+== Service Producer
+
+This service registers itself as a producer and pushes messages supplied in HTTP `POST /send/text-only` body:
+Integration test (KafkaProducerTest) has been created to support basic request.
+
+== Service Consumer
+
+There must be accessible topic named `demo-text-msg` to run this service. Make sure, that you run this command first:
+
+```
+docker exec broker0 \
+kafka-topics \
+--create \
+--bootstrap-server broker0:29092 \
+--replication-factor 1 \
+--topic demo-text-msg
+```
+
+== Useful Docker & Kafka commands
+
+First log in to a `broker0` to have an access to kafka-* console commands
+
+```
+docker exec -it broker0 bash
+```
+
+=== Running producer
+
+```
+kafka-console-producer \
+--broker-list broker0:29092 \
+--topic demo-text-msg
+```
+
+=== Running consumer
+
+```
+kafka-console-consumer \
+--bootstrap-server broker0:29092 \
+--topic demo-text-msg \
+--from-beginning \
+--consumer-property group.id=g1
+```
+
+=== Topic creation
+
+```
+kafka-topics \
+--create \
+--bootstrap-server broker0:29092 \
+--replication-factor 1 \
+--topic demo-text-msg
+```
+
+=== Topics list & topic details
+
+```
+kafka-topics \
+--bootstrap-server broker0:29092 \
+--list
+```
+
+```
+kafka-topics \
+--bootstrap-server broker0:29092 \
+--topic demo-text-msg \
+--describe
+```
+
+=== Topic delete
+
+```
+kafka-topics \
+--delete \
+--bootstrap-server broker0:29092 \
+--topic demo-text-msg
+```
