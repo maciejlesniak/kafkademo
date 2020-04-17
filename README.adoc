@@ -54,6 +54,17 @@ kafka-console-consumer \
 --consumer-property group.id=g1
 ```
 
+```
+kafka-console-consumer \
+--bootstrap-server broker0:29092 \
+--topic demo-text-msg \
+--from-beginning \
+--consumer-property group.id=g1 \
+--property print.key=true \
+--property key.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer \
+--property value.deserializer=org.apache.kafka.common.serialization.StringDeserializer
+```
+
 === Topic creation
 
 ```

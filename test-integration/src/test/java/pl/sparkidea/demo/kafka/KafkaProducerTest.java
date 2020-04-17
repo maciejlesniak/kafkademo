@@ -10,8 +10,8 @@ import org.junit.jupiter.api.RepeatedTest;
 
 public class KafkaProducerTest {
 
-  @RepeatedTest(1)
-  public void producer_whenPostData_sendsItToKafka() throws InterruptedException {
+  @RepeatedTest(2000)
+  public void producer_whenPostData_sendsItToKafka() {
 
     RequestSpecBuilder specBuilder = new RequestSpecBuilder();
     specBuilder.setBaseUri("http://localhost:9000/send");
